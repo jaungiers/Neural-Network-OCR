@@ -11,7 +11,7 @@ class Network:
 
 	def FeedForward(self, a):
 		for b, w in zip(self.biases, self.weights):
-			a = sigmoid(np.dot(w, a)+b)
+			a = self.Sigmoid(np.dot(w, a)+b)
 		return a
 
 	#Run SGC on the whole network
@@ -62,17 +62,17 @@ class Network:
 		for b, w in zip(self.biases, self.weights):
 			z = np.dot(w, activation)+b
 			vectors_z.append(z)
-			activation = sigmoid(z)
+			activation = self.Sigmoid(z)
 			activations.append(activation)
 
 		#BackwardPass
-		delta = self.CostDerivative(activations[-1], y) * Sigmoid(vectors_z[-1], True)
+		delta = self.CostDerivative(activations[-1], y) * self.Sigmoid(vectors_z[-1], True)
 		tau_b[-1] = delta
 		tau_w[-1] = np.dot(delta, activations[-2].transpose())
 
 		for l in xrange(2, self.num_layers):
 			z = vectors_z[-l]
-			sigmoid_derivative = Sigmoid(z, True)
+			sigmoid_derivative = self.Sigmoid(z, True)
 			delta = np.dot(self.weights[-l+1].transpose(), delta) * sigmoid_derivative
 			tau_b[-l] = delta
 			tau_w[-l] = np.dot(delta, activations[-l-1].transpose())
@@ -87,7 +87,7 @@ class Network:
 	def CostDerivative(self, output_activations, y):
 		return (output_activations-y)
 
-	def Sigmoid(z, deriv=False):
+	def Sigmoid(self, z, deriv=False):
 		if deriv:
-			return sigmoid(z)*(1-sigmoid(z))
+			return self.Sigmoid(z)*(1-self.Sigmoid(z))
 		return 1.0/(1.0+np.exp(-z))
