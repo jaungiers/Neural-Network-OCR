@@ -6,8 +6,8 @@ class Network:
 	def __init__(self, structure):
 		self.num_layers = len(structure)
 		self.structure  = structure
-		self.biases 	= [np.random.rand(y, 1) for y in structure[1:]]
-		self.weights	= [np.random.rand(y, x) for x, y in zip(structure[:-1], structure[1:])]
+		self.biases 	= [np.random.randn(y, 1) for y in structure[1:]]
+		self.weights	= [np.random.randn(y, x) for x, y in zip(structure[:-1], structure[1:])]
 
 	def FeedForward(self, a):
 		for b, w in zip(self.biases, self.weights):
@@ -29,7 +29,6 @@ class Network:
 
 			if test_data:
 				print 'T-{0}: {1}/{2}'.format(i, self.Evaluate(test_data), n_test)
-				print sum(self.weights[1])
 			else:
 				print 'T-{0} completed'.format(i)
 
@@ -90,5 +89,5 @@ class Network:
 
 	def Sigmoid(self, z, deriv=False):
 		if deriv:
-			return self.Sigmoid(z)*(1.0-self.Sigmoid(z))
+			return self.Sigmoid(z)*(1-self.Sigmoid(z))
 		return 1.0/(1.0+np.exp(-z))
