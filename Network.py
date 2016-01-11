@@ -17,7 +17,7 @@ class Network:
 	#Run SGC on the whole network
 	#train_data is list of tuples in format (input, desired_output)
 	#If test_data is provided, network will evaluate against it on each epoch. Slow!
-	def StochasticGradientDescent(self, train_data, epochs, mini_batch_size, k, test_data=None):
+	def StochasticGradientDescent(self, train_data, epochs, mini_batch_size, learn_rate, test_data=None):
 		if test_data: n_test = len(test_data)
 		n = len(train_data)
 		for i in xrange(epochs):
@@ -25,10 +25,11 @@ class Network:
 			mini_batches = [train_data[k:k+mini_batch_size] for k in xrange(0, n, mini_batch_size)]
 
 			for batch in mini_batches:
-				self.UpdateMiniBatch(batch, k)
+				self.UpdateMiniBatch(batch, learn_rate)
 
 			if test_data:
 				print 'T-{0}: {1}/{2}'.format(i, self.Evaluate(test_data), n_test)
+				print sum(self.weights[1])
 			else:
 				print 'T-{0} completed'.format(i)
 
@@ -89,5 +90,5 @@ class Network:
 
 	def Sigmoid(self, z, deriv=False):
 		if deriv:
-			return self.Sigmoid(z)*(1-self.Sigmoid(z))
+			return self.Sigmoid(z)*(1.0-self.Sigmoid(z))
 		return 1.0/(1.0+np.exp(-z))
