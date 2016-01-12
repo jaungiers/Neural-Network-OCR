@@ -2,6 +2,8 @@ import cv2
 import json
 import DataLoader
 import Network
+import numpy as np
+import matplotlib.pyplot as plt
 
 configs = None
 train_data = None
@@ -18,15 +20,24 @@ def init():
 	train_data, valid_data, test_data = data_loader.LoadData()
 
 #Debug function for checking visual of data
-def renderImg(imgSet, i):
+def RenderImg(imgSet, i):
 	img = imgSet[i][0].reshape(28,28)
 	cv2.imshow('Number', img)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 
+def PlotEpochAccuracy(epochs, hist):
+	fig = plt.figure(facecolor='white')
+	fig.canvas.set_window_title('Network accuracy per epoch')
+	ax = fig.add_subplot(1, 1, 1)
+	ax.plot(range(epochs), hist, color='#1F77B4')
+	ax.set_xlabel(r'$epochs$')
+	ax.set_ylabel(r'$accuracy$')
+	plt.show()
+
 if __name__ == '__main__':
 	init()
-	#renderImg(train_data, 1)
+	#RenderImg(train_data, 1)
 	print '> Initialising Neural Network...'
 	print 'Input  Neurons:', configs['network_shape'][0]
 	print 'Hidden Neurons:', configs['network_shape'][1]
@@ -36,5 +47,16 @@ if __name__ == '__main__':
 	print '> Training Network...'
 	print 'Learning Rate:', configs['learning_rate']
 	print 'Number of Epochs:', configs['num_epochs']
-	neural_net.StochasticGradientDescent(train_data, configs['num_epochs'], configs['mini_batch_size'], configs['learning_rate'], test_data=test_data)
+	epoch_accuracy = neural_net.StochasticGradientDescent(
+		train_data,
+		configs['num_epochs'],
+		configs['mini_batch_size'],
+		configs['learning_rate'],
+		test_data=test_data
+	)
 	print '> Training Finished!'
+	print '> Running Test Data on Network...'
+	accuracy = (float(neural_net.Evaluate(test_data))/float(len(test_data)))*100
+	print '> Finished Classifying {0} Images'.format(len(test_data))
+	print '> Network Accuracy: {0:.2f}%'.format(accuracy)
+	PlotEpochAccuracy(configs['num_epochs'], epoch_accuracy)

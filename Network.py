@@ -8,6 +8,7 @@ class Network:
 		self.structure  = structure
 		self.biases 	= [np.random.randn(y, 1) for y in structure[1:]]
 		self.weights	= [np.random.randn(y, x) for x, y in zip(structure[:-1], structure[1:])]
+		self.epoch_accuracy = []
 
 	def FeedForward(self, a):
 		for b, w in zip(self.biases, self.weights):
@@ -28,9 +29,12 @@ class Network:
 				self.UpdateMiniBatch(batch, learn_rate)
 
 			if test_data:
-				print 'T-{0}: {1}/{2}'.format(i, self.Evaluate(test_data), n_test)
+				accuracy = (float(self.Evaluate(test_data))/float(n_test))*100
+				self.epoch_accuracy.append(accuracy)
+				print 'e-{0}: {1:.2f}%'.format(i, accuracy)
 			else:
-				print 'T-{0} completed'.format(i)
+				print 'e-{0} completed'.format(i)
+		return self.epoch_accuracy
 
 	#Apply Gradient Descent to mini batch
 	#mini_batch is list of tuples in format (input, desired_output)
