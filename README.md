@@ -2,9 +2,11 @@
 
 ## Overview
 
-A multi-layer neural network framework which utilises the standard Stochastic Gradient Descent algorithm via Backpropagation to optimise the learning of the network.
+A multi-layer neural network framework for recognising handwritten numbers which utilises the standard Stochastic Gradient Descent algorithm via Backpropagation to optimise the learning of the network.
 
-The network allows for hyperparameter customisation via a JSON file. This is limited to keeping only 1 hidden layer however and is optimised for the MNIST handwriting dataset, so has 784 input neurons and 10 output neurons.
+The network is trained and tested against the MNIST dataset with 50,000 training examples of handwritten digits and a different 10,000 test set of digits for evaluation.
+
+The network allows for hyperparameter customisation via a JSON file. This is limited to keeping only 1 hidden layer however and is optimised for the MNIST handwriting dataset, so has 784 input neurons (for a vector representation of each image as images are 28x28 pixels) and 10 output neurons.
 
 ## Hidden Layers N-Comparisons
 
