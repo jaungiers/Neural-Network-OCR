@@ -13,7 +13,7 @@ To compare the effect of the number of hidden layers on the accuracy curve of th
 The graph below details the final epoch accuracy vs. number of hidden neurons. And the subsequent graphs below show the accuracy rates per epoch for a given N of hidden neurons.
 
 ###### Final Epoch Accuracy vs. Number of Hidden Neurons
-![Final epoch accuracy vs. Number of hidden neurons](https://raw.githubusercontent.com/jaungiers/Neural-Network-OCR/master/outputs/exit.png)
+![Final epoch accuracy vs. Number of hidden neurons](https://raw.githubusercontent.com/jaungiers/Neural-Network-OCR/master/outputs/epochs-vs-n-hidden.png)
 
 ###### Accuracy Performance over 50-epochs with 10 Hidden Neurons
 ![Accuracy Performance over 50-epochs with 10 Hidden Neurons](https://raw.githubusercontent.com/jaungiers/Neural-Network-OCR/master/outputs/10-hidden.png)
